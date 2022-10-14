@@ -1,0 +1,24 @@
+//Sample of a test Case
+
+
+TEST DATA: [
+["Selenide" - "Selenide - это фреймворк для автоматизированного тестирования"],
+["Junit" - "В этом туториале по JUnit 5 рассказывается о том"]
+]
+
+1. SUMMARY
+Check a number of result for Cambridge dictionary search for [test_data][0] request
+
+2. SEVERITY Major
+
+3. PRECONDITIONS (optional)
+Open the browser
+Navigate to "https://dictionary.cambridge.org/"
+
+4. STEPS
+Fill [test_data][0] in the search field
+Click on "Search" button
+
+5. EXPECTED RESULT
+There are 10 links in the search result field. The first link has [test_data][1]
+
