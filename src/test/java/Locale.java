@@ -1,3 +1,5 @@
 public enum Locale {
-    EN , RU
+    Deutsch , Italiano
+
+
 }

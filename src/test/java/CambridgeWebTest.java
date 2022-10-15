@@ -67,8 +67,10 @@ public class CambridgeWebTest {
 
     static Stream<Arguments> cambridgeCheckLocaleTest(){
         Stream<Arguments> of = Stream.of(
-                Arguments.of(Locale.EN, List.of("Dictionary", "Translate", "Grammar", "Thesaurus", "Plus")),
-                Arguments.of(Locale.RU, List.of("Словарь", "Переводчик", "Грамматика", "Тезаурус"))
+
+                Arguments.of(Locale.Italiano, List.of("Dizionario" , "Traduci", "Grammatica",  "Thesaurus",
+                        "+Plus")),
+                Arguments.of(Locale.Deutsch , List.of("Wörterbuch", "Übersetzen", "Grammatik", "Thesaurus", "+Plus"))
         );
         return of;
     }
@@ -84,6 +86,7 @@ public class CambridgeWebTest {
 
 
     }
+
 
 
 }
