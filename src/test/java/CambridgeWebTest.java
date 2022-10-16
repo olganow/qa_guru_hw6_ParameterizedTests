@@ -14,19 +14,17 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class CambridgeWebTest {
-
 
 
     @BeforeEach
     void setUp() {
         open("https://dictionary.cambridge.org/");
     }
-    @Disabled ("It is very simple test")
+
+    @Disabled("It is very simple test")
     @Test
     @DisplayName("Check a number of result for Cambridge dictionary search for \"guttersnipe\" request")
     void cambridgeSearchOneWordTest() {
@@ -34,26 +32,26 @@ public class CambridgeWebTest {
         $("#searchword").setValue(testData);
         $("button[type='submit']").click();
         $x("//h2[contains(text(),'Examples')]")
-                .shouldHave(text("EXAMPLES of "+testData));
+                .shouldHave(text("EXAMPLES of " + testData));
     }
 
-    @ValueSource(strings =  {"guttersnipe", "advantage"})
+    @ValueSource(strings = {"guttersnipe", "advantage"})
     // TEST DATA: ["guttersnipe", "advantage"]
     @ParameterizedTest
     @DisplayName("Check a number of result for Cambridge dictionary search for [test_data][0] request")
-    // [test_data] == (String testData)
+        // [test_data] == (String testData)
     void cambridgeSearchTwoWordTest(String testData) {
         $("#searchword").setValue(testData);
         $("button[type='submit']").click();
         $x("//h2[contains(text(),'Examples')]")
-                .shouldHave(text("EXAMPLES of "+testData));
+                .shouldHave(text("EXAMPLES of " + testData));
     }
 
-    @CsvSource (value = {
+    @CsvSource(value = {
             "guttersnipe, a child from a poor area of a town who is dirty and badly dressed :",
             "advantage,  a condition giving a greater chance of success:"
     }
-    //delimiter = '|' we use instead ','
+            //delimiter = '|' we use instead ','
     )
     @ParameterizedTest
     @DisplayName("Check a number of result for Cambridge dictionary search for [test_data][0] request")
@@ -65,28 +63,30 @@ public class CambridgeWebTest {
                 .shouldHave(text(expectedText));
     }
 
-    static Stream<Arguments> cambridgeCheckLocaleTest(){
+    static Stream<Arguments> cambridgeCheckLocaleTest() {
         Stream<Arguments> of = Stream.of(
 
-                Arguments.of(Locale.Italiano, List.of("Dizionario" , "Traduci", "Grammatica",  "Thesaurus",
+                Arguments.of(Locale.US, List.of("Dictionary", "Translate", "Grammar", "Thesaurus", "Plus")),
+
+                Arguments.of(Locale.RU, List.of("Словарь", "Переводчик", "Грамматика",
+                        "Тезаурус", "+Plus")),
+                Arguments.of(Locale.IT, List.of("Dizionario", "Traduci", "Grammatica", "Thesaurus",
                         "+Plus")),
-                Arguments.of(Locale.Deutsch , List.of("Wörterbuch", "Übersetzen", "Grammatik", "Thesaurus", "+Plus"))
+                Arguments.of(Locale.DE, List.of("Wörterbuch", "Übersetzen", "Grammatik", "Thesaurus", "+Plus"))
         );
         return of;
     }
 
+    //locale.getDesc()
     @MethodSource("cambridgeCheckLocaleTest")
     @ParameterizedTest
-    void cambridgeCheckLocaleTest(Locale locale, List<String> buttonsText){
+    void cambridgeCheckLocaleTest(Locale locale, List<String> buttonsText) {
         $x("//span[contains(text(),'English (UK)')]").click();
-//        $x("//div[@class='lp-15']//a[contains(text(),'Русский')]").click();
-//        $x("//div[@class='lp-15']//a[contains(text(),'English (US)')]").click();
-        $$("div[class=lp-15] a").find(text(locale.name())).click();
+        $$("div[class=lp-15] a").find(text(locale.getDesc())).click();
         $$("nav li[class=hdib]").shouldHave(CollectionCondition.texts(buttonsText));
 
 
     }
-
 
 
 }
